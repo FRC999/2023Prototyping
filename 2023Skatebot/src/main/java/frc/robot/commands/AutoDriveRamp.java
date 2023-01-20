@@ -9,6 +9,11 @@ import frc.robot.RobotContainer;
 
 public class AutoDriveRamp extends CommandBase {
   /** Creates a new AutoDriveRamp. */
+
+  private boolean climbFlag = false;
+  private final double climbAngle = 12.0;
+  private final double balanceChange = -1.5;
+
   public AutoDriveRamp() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.driveSubsystem);
@@ -32,16 +37,18 @@ public class AutoDriveRamp extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.driveSubsystem.manualDrive(0, 0.268);
-    //RobotContainer.driveSubsystem.stopRobot();
+    //RobotContainer.driveSubsystem.manualDrive(0, 0.268);
+    RobotContainer.driveSubsystem.stopRobot();
     System.out.println("end of the command:" + interrupted);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+
+    climbFlag = climbFlag || RobotContainer.pigeonIMUSubsystem.getPitch() >= climbAngle;
     System.out.println(RobotContainer.pigeonIMUSubsystem.getPitch());
-    return RobotContainer.pigeonIMUSubsystem.getPitch() < 10.65;
+    return climbFlag && RobotContainer.pigeonIMUSubsystem.getPitch() < (climbAngle + balanceChange);
 
   }
 }
