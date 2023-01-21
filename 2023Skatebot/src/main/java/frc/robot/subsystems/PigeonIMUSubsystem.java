@@ -14,7 +14,6 @@ public class PigeonIMUSubsystem extends SubsystemBase {
   /** Creates a new PigeonIMUSubsystem. */
   /** Creates a new PigeonIMUSubsystem. */
   WPI_TalonSRX pigeonIMUController = new WPI_TalonSRX(4);   //watch for class type!
-  private WPI_TalonSRX pigeyTalonSRX;
   private PigeonIMU bird = new PigeonIMU(pigeonIMUController);
   private double[] xyz = new double[3];
 

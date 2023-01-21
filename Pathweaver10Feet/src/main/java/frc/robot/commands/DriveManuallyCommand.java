@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
 public class DriveManuallyCommand extends CommandBase {
@@ -12,7 +13,6 @@ public class DriveManuallyCommand extends CommandBase {
   public DriveManuallyCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.driveSubsystem);
-    addRequirements(RobotContainer.pigeonIMUSubsystem);
     addRequirements(RobotContainer.smartDashboard);
   }
 
