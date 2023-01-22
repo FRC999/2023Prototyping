@@ -28,7 +28,8 @@ public class DriveSubsystem extends SubsystemBase {
 
   WPI_TalonFX leftmotor = new WPI_TalonFX(9);
   WPI_TalonFX rightmotor = new WPI_TalonFX(10);
-  final double clicksPerFoot = 120615/10;
+  //final double clicksPerFoot = 120615/10;
+  final double clicksPerFoot = 1.021*(120615/10);
   public final int tickPerInch = (int)(clicksPerFoot / 12); // (int) (2048/(4*Math.PI));
   public final int tolerance = 1*tickPerInch;
 
@@ -54,6 +55,7 @@ public class DriveSubsystem extends SubsystemBase {
   public DriveSubsystem() {
     resetToFactoryDefaults();
     configureEncoders();
+    configureSimpleMagic();
     brakeMode();
     zeroEncoders();
     drive = new DifferentialDrive(leftmotor, rightmotor);
@@ -64,7 +66,7 @@ public class DriveSubsystem extends SubsystemBase {
         new DifferentialDriveOdometry(
           RobotContainer.imuSubsystem.getRotation2d(),
           TranslateDistanceIntoMeters(leftmotor.getSelectedSensorPosition()),
-          TranslateDistanceIntoMeters(rightmotor.getSelectedSensorPosition())
+          TranslateDistanceIntoMeters(-rightmotor.getSelectedSensorPosition())
         );
   }
 
@@ -89,8 +91,17 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   /** Get the number of tics moved by the left encoder */
+  public int getRightEncoderVelocity() {
+    return (int) -rightmotor.getSelectedSensorVelocity();
+  }
+
+  public int getLeftEncoderVelocity() {
+    return (int) leftmotor.getSelectedSensorVelocity();
+  }
+
+  /** Get the number of tics moved by the left encoder */
   public int getRightEncoder() {
-    return (int) rightmotor.getSelectedSensorPosition();
+    return (int) -rightmotor.getSelectedSensorPosition();
   }
 
   public void zeroEncoders(){
@@ -122,11 +133,13 @@ public class DriveSubsystem extends SubsystemBase {
     rightmotor.configNeutralDeadband(0.001, 30);
     leftmotor.configNeutralDeadband(0.001, 30);
 
-    leftmotor.setSensorPhase(true);
-    rightmotor.setSensorPhase(true);
+    leftmotor.setSensorPhase(false);
+    rightmotor.setSensorPhase(false);
 
     leftmotor.setInverted(false);
-    rightmotor.setInverted(true);
+    rightmotor.setInverted(false);
+
+
 
     System.out.println("configure simple magic - just inversion and deadband");
 
@@ -156,7 +169,7 @@ public class DriveSubsystem extends SubsystemBase {
   public DifferentialDriveWheelSpeeds getWheelSpeeds() { // needs to be meters per second
     return new DifferentialDriveWheelSpeeds(
         TranslateVelocityIntoMetersPerSecond(leftmotor.getSelectedSensorVelocity()),
-        TranslateVelocityIntoMetersPerSecond(rightmotor.getSelectedSensorVelocity())
+        TranslateVelocityIntoMetersPerSecond(-rightmotor.getSelectedSensorVelocity())
     );
   }
 
@@ -178,7 +191,7 @@ public class DriveSubsystem extends SubsystemBase {
     m_odometry.resetPosition(  // distances need to be in meters
         RobotContainer.imuSubsystem.getRotation2d(),
         TranslateDistanceIntoMeters(leftmotor.getSelectedSensorPosition()),
-        TranslateDistanceIntoMeters(rightmotor.getSelectedSensorPosition()),
+        TranslateDistanceIntoMeters(-rightmotor.getSelectedSensorPosition()),
         pose);
   }
 
@@ -202,8 +215,11 @@ public class DriveSubsystem extends SubsystemBase {
    * @param rightVolts the commanded right output
    */
   public void tankDriveVolts(double leftVolts, double rightVolts) {
+
+    System.out.println("TV L:"+leftVolts+" R:"+rightVolts);
+
     leftmotor.setVoltage(leftVolts);
-    rightmotor.setVoltage(rightVolts);
+    rightmotor.setVoltage(-rightVolts);
     drive.feed();
   }
 
@@ -215,7 +231,7 @@ public class DriveSubsystem extends SubsystemBase {
     m_odometry.update(
       RobotContainer.imuSubsystem.getRotation2d(),
       TranslateDistanceIntoMeters(leftmotor.getSelectedSensorPosition()),
-      TranslateDistanceIntoMeters(rightmotor.getSelectedSensorPosition())
+      TranslateDistanceIntoMeters(-rightmotor.getSelectedSensorPosition())
     );
 
   }

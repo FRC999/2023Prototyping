@@ -15,21 +15,25 @@ public class SmartDashboardSubsystem extends SubsystemBase {
   void updateEncoders() {
     SmartDashboard.putNumber("Left Encoder Value", RobotContainer.driveSubsystem.getLeftEncoder());
     SmartDashboard.putNumber("Right Encoder Value", RobotContainer.driveSubsystem.getRightEncoder());
+    SmartDashboard.putNumber("Left Encoder Velocity", RobotContainer.driveSubsystem.getLeftEncoderVelocity());
+    SmartDashboard.putNumber("Right Encoder Velocity", RobotContainer.driveSubsystem.getRightEncoderVelocity());
   }
-/* 
+
   void updatePigeon() {
-    SmartDashboard.putNumber("Pitch value", RobotContainer.pigeonIMUSubsystem.getPitch());
-    SmartDashboard.putNumber("Roll value", RobotContainer.pigeonIMUSubsystem.getRoll());
-    SmartDashboard.putNumber("Yaw value", RobotContainer.pigeonIMUSubsystem.getYaw());
+    //SmartDashboard.putNumber("Pitch value", RobotContainer.imuSubsystem.getPitch());
+    //SmartDashboard.putNumber("Roll value", RobotContainer.imuSubsystem.getRoll());
+    SmartDashboard.putNumber("Pidgeon Heading value", RobotContainer.imuSubsystem.getHeading());
     
-    SmartDashboard.putNumber("yaw value", RobotContainer.pigeonIMUSubsystem.getYaw());
   }
-  */
+  
   public void updateAllDisplays() {
+    updateEncoders();
+    updatePigeon();
   }
   
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    updateAllDisplays();
   }
 }

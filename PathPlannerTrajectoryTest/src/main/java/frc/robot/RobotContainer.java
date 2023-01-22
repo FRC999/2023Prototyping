@@ -16,6 +16,7 @@ import frc.robot.subsystems.SmartDashboardSubsystem;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -33,9 +34,9 @@ public static Object pigeonIMU;
 
   public static final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
-  public static final DriveSubsystem driveSubsystem = new DriveSubsystem();
-
   public static final IMUSubsystem imuSubsystem = new IMUSubsystem();
+
+  public static final DriveSubsystem driveSubsystem = new DriveSubsystem();
 
   public static final SmartDashboardSubsystem smartDashboard = new SmartDashboardSubsystem();
 
@@ -70,8 +71,14 @@ public static Object pigeonIMU;
     // cancelling on release.
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
     new JoystickButton(drivestick, 11)
-          .whileTrue(new RunTrajectorySequentialCommandGroup("10ftforward"))
+          .whileTrue(new RunTrajectorySequentialCommandGroup("simpleturn90"))
           .whileFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem, RobotContainer.imuSubsystem));
+
+  
+    new JoystickButton(drivestick, 7)
+        .whileTrue(new SequentialCommandGroup(
+            new InstantCommand(driveSubsystem::zeroEncoders, driveSubsystem),
+            new InstantCommand(imuSubsystem::zeroHeading, imuSubsystem)));
   }
 
   /**
