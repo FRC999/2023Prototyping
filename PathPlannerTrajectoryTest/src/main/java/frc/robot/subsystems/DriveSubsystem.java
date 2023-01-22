@@ -22,6 +22,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 
 public class DriveSubsystem extends SubsystemBase {
 
@@ -33,8 +34,6 @@ public class DriveSubsystem extends SubsystemBase {
 
   public DifferentialDrive drive;
   
-  TalonFXConfiguration leftConfig;
-  TalonFXConfiguration rightConfig;
   public final static int kPigeonUnitsPerRotation = 8192;
   public final static double kTurnTravelUnitsPerRotation = 3600;
   public final static double kNeutralDeadband = 0.001;
@@ -53,13 +52,20 @@ public class DriveSubsystem extends SubsystemBase {
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
+    resetToFactoryDefaults();
     configureEncoders();
     brakeMode();
     zeroEncoders();
     drive = new DifferentialDrive(leftmotor, rightmotor);
     drive.setSafetyEnabled(false);
-    leftConfig = new TalonFXConfiguration();
-	  rightConfig = new TalonFXConfiguration();
+
+    // Set initial odometry for trajectories - where robot is right now from the encoder and IMU point of view
+    m_odometry =
+        new DifferentialDriveOdometry(
+          RobotContainer.imuSubsystem.getRotation2d(),
+          TranslateDistanceIntoMeters(leftmotor.getSelectedSensorPosition()),
+          TranslateDistanceIntoMeters(rightmotor.getSelectedSensorPosition())
+        );
   }
 
   public void brakeMode() {
@@ -69,6 +75,12 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void arcadeDriving(double move, double turn){
     drive.arcadeDrive(move, turn);
+  }
+  
+  // Reset motors to factory defaults
+  private void resetToFactoryDefaults() {
+    leftmotor.configFactoryDefault();
+    rightmotor.configFactoryDefault();
   }
 
    /** Get the number of tics moved by the left encoder */
@@ -105,27 +117,10 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   
-  //12/18/22 testing Subsystem
-
-  public void ConfigureMotorTurning(){
-    leftmotor.setSafetyEnabled(false);
-    rightmotor.setSafetyEnabled(false);
-    TalonFXConfiguration talonConfig = new TalonFXConfiguration();
-    talonConfig.slot0.kP = 0.4;
-    talonConfig.slot0.kD = 0.0;
-    talonConfig.remoteFilter0.remoteSensorDeviceID = 4;
-    talonConfig.remoteFilter0.remoteSensorSource = RemoteSensorSource.GadgeteerPigeon_Yaw;
-    talonConfig.primaryPID.selectedFeedbackSensor = FeedbackDevice.RemoteSensor0;
-
-    rightmotor.configFactoryDefault();
-    rightmotor.configAllSettings(talonConfig);
-    rightmotor.setNeutralMode(NeutralMode.Brake);
-    rightmotor.configClosedLoopPeakOutput(0, 0.3);
-  }
-
-  public void birdTurnRight(double position) {
-    rightmotor.set(ControlMode.Position, position);
-  }
+  /*
+    All Hardware PID setup is removed
+    Only inversion and encoder iinversion settings are left here
+   */
 
   public void configureSimpleMagic() {
     leftmotor.setSafetyEnabled(false);
@@ -141,89 +136,9 @@ public class DriveSubsystem extends SubsystemBase {
     leftmotor.setInverted(false);
     rightmotor.setInverted(true);
 
-    /* Set status frame periods to ensure we don't have stale data */
-    
-    rightmotor.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 10,
-        30);
-    leftmotor.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 10,
-        30);
-    rightmotor.setStatusFramePeriod(StatusFrame.Status_10_Targets, 10,
-        30);
-    leftmotor.setStatusFramePeriod(StatusFrame.Status_10_Targets, 10,
-        30);
-    //rightmotor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 20,
-    //    30);
-    //leftmotor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 20,
-    //    30);
-
-    /**
-    * Max out the peak output (for all modes). However you can limit the output of
-    * a given PID object with configClosedLoopPeakOutput().
-    */
-    leftmotor.configPeakOutputForward(+1.0, 30);
-    leftmotor.configPeakOutputReverse(-1.0, 30);
-    leftmotor.configNominalOutputForward(0, 30);
-    leftmotor.configNominalOutputReverse(0, 30);
-
-    rightmotor.configPeakOutputForward(+1.0, 30);
-    rightmotor.configPeakOutputReverse(-1.0, 30);
-    rightmotor.configNominalOutputForward(0, 30);
-    rightmotor.configNominalOutputReverse(0, 30);      
-    
-    /* FPID Gains for each side of drivetrain */
-    leftmotor.selectProfileSlot(0, 0);
-    leftmotor.config_kP(0, 0.75, 30);
-    leftmotor.config_kI(0, 0.005, 30);
-    leftmotor.config_kD(0, 0.01,  30);
-    leftmotor.config_kF(0, 0, 30);
-
-    leftmotor.config_IntegralZone(0, 500,  30);
-    leftmotor.configClosedLoopPeakOutput(0, 0.5, 30);
-    leftmotor.configAllowableClosedloopError(0, 5, 30);
-    
-
-    rightmotor.selectProfileSlot(0, 0);
-    rightmotor.config_kP(0, 0.75, 30);
-    rightmotor.config_kI(0, 0.005, 30);
-    rightmotor.config_kD(0, 0.01, 30);
-    rightmotor.config_kF(0, 0, 30);
-
-    rightmotor.config_IntegralZone(0, 5000, 30);
-    rightmotor.configClosedLoopPeakOutput(0, 0.5, 30);
-    rightmotor.configAllowableClosedloopError(0, 5, 30);
-
-    rightmotor.configClosedLoopPeriod(0, 1,
-      30);
-    leftmotor.configClosedLoopPeriod(0, 1,
-      30);
-
-  /* Motion Magic Configurations */
-
-  /**
-   * Need to replace numbers with real measured values for acceleration and cruise
-   * vel.
-   */
-    leftmotor.configMotionAcceleration(6750,
-      30);
-    leftmotor.configMotionCruiseVelocity(6750,
-      30);
-   leftmotor.configMotionSCurveStrength(3);
-
-    rightmotor.configMotionAcceleration(6750,
-      30);
-    rightmotor.configMotionCruiseVelocity(6750,
-      30);
-    rightmotor.configMotionSCurveStrength(3);
-
-    System.out.println("configure simple magic");
+    System.out.println("configure simple magic - just inversion and deadband");
 
   } // End configureDriveTrainControllersForSimpleMagic
-
-  public void drivePIDLinear(int endingPosition) {
-    leftmotor.set(TalonFXControlMode.MotionMagic,endingPosition*tickPerInch);
-    rightmotor.set(TalonFXControlMode.MotionMagic,endingPosition*tickPerInch);
-    System.out.println(endingPosition*tickPerInch);
-  }
 
   public void stopRobot() {
     leftmotor.set(TalonFXControlMode.PercentOutput, 0);
@@ -247,8 +162,9 @@ public class DriveSubsystem extends SubsystemBase {
    * @return The current wheel speeds.
    */
   public DifferentialDriveWheelSpeeds getWheelSpeeds() { // needs to be meters per second
-    return new DifferentialDriveWheelSpeeds(TranslateVelocityIntoMetersPerSecond(leftmotor.getSelectedSensorVelocity()),
-                                            TranslateVelocityIntoMetersPerSecond(rightmotor.getSelectedSensorVelocity())
+    return new DifferentialDriveWheelSpeeds(
+        TranslateVelocityIntoMetersPerSecond(leftmotor.getSelectedSensorVelocity()),
+        TranslateVelocityIntoMetersPerSecond(rightmotor.getSelectedSensorVelocity())
     );
   }
 
@@ -263,18 +179,52 @@ public class DriveSubsystem extends SubsystemBase {
    * @param pose The pose to which to set the odometry.
    */
   public void resetOdometry(Pose2d pose) {
-    zeroEncoders();
+    
+    zeroEncoders();   // Reset Encoders
+    RobotContainer.imuSubsystem.zeroHeading();  // Reset Yaw
+
     m_odometry.resetPosition(  // distances need to be in meters
-        m_gyro.getRotation2d(), TranslateDistanceIntoMeters(leftmotor.getSelectedSensorPosition()),
-        TranslateDistanceIntoMeters(rightmotor.getSelectedSensorPosition()), pose);
+        RobotContainer.imuSubsystem.getRotation2d(),
+        TranslateDistanceIntoMeters(leftmotor.getSelectedSensorPosition()),
+        TranslateDistanceIntoMeters(rightmotor.getSelectedSensorPosition()),
+        pose);
   }
 
   public double TranslateDistanceIntoMeters(double distanceRawUnits) {
     return Units.inchesToMeters(distanceRawUnits / tickPerInch) ;
   }
 
+    /**
+   * Sets the max output of the drive. Useful for scaling the drive to drive more slowly.
+   *
+   * @param maxOutput the maximum output to which the drive will be constrained
+   */
+  public void setMaxOutput(double maxOutput) {
+    drive.setMaxOutput(maxOutput);
+  }
+
+  /**
+   * Controls the left and right sides of the drive directly with voltages.
+   *
+   * @param leftVolts the commanded left output
+   * @param rightVolts the commanded right output
+   */
+  public void tankDriveVolts(double leftVolts, double rightVolts) {
+    leftmotor.setVoltage(leftVolts);
+    rightmotor.setVoltage(rightVolts);
+    drive.feed();
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+
+    // We probably need to move this odometry update into the command rather than keeping it in a subsystem
+    m_odometry.update(
+      RobotContainer.imuSubsystem.getRotation2d(),
+      TranslateDistanceIntoMeters(leftmotor.getSelectedSensorPosition()),
+      TranslateDistanceIntoMeters(rightmotor.getSelectedSensorPosition())
+    );
+
   }
 }

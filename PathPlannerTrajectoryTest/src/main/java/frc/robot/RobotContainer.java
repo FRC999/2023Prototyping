@@ -8,9 +8,10 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.DriveManuallyCommand;
 import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.LoadPathCommand;
+import frc.robot.commands.RunTrajectorySequentialCommandGroup;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.IMUSubsystem;
 import frc.robot.subsystems.SmartDashboardSubsystem;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -33,6 +34,8 @@ public static Object pigeonIMU;
   public static final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
   public static final DriveSubsystem driveSubsystem = new DriveSubsystem();
+
+  public static final IMUSubsystem imuSubsystem = new IMUSubsystem();
 
   public static final SmartDashboardSubsystem smartDashboard = new SmartDashboardSubsystem();
 
@@ -68,7 +71,7 @@ public static Object pigeonIMU;
     // cancelling on release.
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
     new JoystickButton(drivestick, 8)
-          .whileTrue(new LoadPathCommand())
+          .whileTrue(new RunTrajectorySequentialCommandGroup("10ftforward"))
           .whileFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
   }
    
