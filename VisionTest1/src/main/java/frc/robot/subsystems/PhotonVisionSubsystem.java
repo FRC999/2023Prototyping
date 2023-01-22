@@ -50,7 +50,60 @@ public class PhotonVisionSubsystem extends SubsystemBase {
     
   }
 
-  public void getCorners() {
+  public double getCorners() {
+    var result = camera.getLatestResult();
+    
+    if (!result.hasTargets()) { 
+      System.out.println("No target connected" ); 
+      return 0;
+    }
+    
+    PhotonTrackedTarget bestTarget = result.getBestTarget();
+    double sumY = 0;
+    double sumX = 0;
+    double[][] cornersArray = new double[4][2];
+    
+    List<TargetCorner> corners = bestTarget.getDetectedCorners();
+    for(int i = 0; i<4; i++){
+      cornersArray[i][0] = corners.get(i).x;
+      cornersArray[i][1] = corners.get(i).y;
+    }
+    System.out.println("Corners Array");
+    for(int i = 0; i<4; i++){
+      System.out.println(cornersArray[i][0]+ "," + cornersArray[i][1]);
+    }
+
+    for(int i=3; i>=1; i--) {
+      for (int j=0; j<i; j++) {
+        if(cornersArray[j][1]>cornersArray[j+1][1]){
+          double tempX = cornersArray[j][0];
+          double tempY = cornersArray[j][1];
+          cornersArray[j][0]=cornersArray[j+1][0];
+          cornersArray[j][1]=cornersArray[j+1][1];
+          cornersArray[j+1][0]=tempX;
+          cornersArray[j+1][1]=tempY;
+        }
+      }
+    }
+    System.out.println("Y ordered Array");
+    for(int i = 0; i<4; i++){
+      System.out.println(cornersArray[i][0]+ "," + cornersArray[i][1]);
+    }
+
+    double yBottom = (cornersArray[0][1] + cornersArray[1][1])/2;
+    double yTop = (cornersArray[2][1] + cornersArray[3][1])/2;
+    double yLength = yTop - yBottom;
+    double[][] distancePoints = {{30, 182.4}, {40, 133.0}, {50, 107.1}, {60, 88.8}, {70, 76.8}, {80, 66.6}, {90, 59.9}, {100, 53.3}, {110, 48.1}, {120, 44.1}};
+    
+    for (int i = 0; i<10; i++) {
+      if (yLength>distancePoints[i][i]) {
+      }
+    }
+    return yLength;
+    
+  }
+
+  public void getCornersAngle() {
     var result = camera.getLatestResult();
     
     if (!result.hasTargets()) { 
@@ -106,11 +159,6 @@ public class PhotonVisionSubsystem extends SubsystemBase {
       System.out.println(cornersArray[i][0]+ "," + cornersArray[i][1]);
     }
 
-    double yTop = (cornersArray[0][1] + cornersArray[1][1])/2;
-    double yBottom = (cornersArray[2][1] + cornersArray[3][1])/2;
-
-    System.out.println(yTop - yBottom);
-
     double yLength = ((cornersArray[2][1]+cornersArray[3][1])/2) - ((cornersArray[0][1]+cornersArray[1][1])/2);
     System.out.println("X length");
     System.out.println(xLength);
@@ -134,7 +182,8 @@ public class PhotonVisionSubsystem extends SubsystemBase {
     targets = result.getTargets();
 
     if (targets ==  null) { return "-2,-2"; }
-    
+
+    if (targets.isEmpty()) {return "-4,-4";}
 
     PhotonTrackedTarget target = result.getBestTarget();
 
@@ -144,7 +193,7 @@ public class PhotonVisionSubsystem extends SubsystemBase {
       System.out.println("I see the target");
       double yaw = target.getYaw();
       double pitch = target.getPitch();
-      return ""+yaw+","+pitch+","+hasTargets; 
+      return "YPT:"+yaw+","+pitch+","+hasTargets; 
     } else {
       System.out.println("I DO NOT see the target");
       return "-3,-3,"+hasTargets;

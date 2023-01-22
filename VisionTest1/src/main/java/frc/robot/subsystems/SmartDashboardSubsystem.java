@@ -15,12 +15,13 @@ public class SmartDashboardSubsystem extends SubsystemBase {
   }
 
   public void updatePhotonVision() {
-    RobotContainer.photoVision.getYawPitch();
-    RobotContainer.photoVision.getCorners();
+    SmartDashboard.putString("GetYawPitch:", RobotContainer.photoVision.getYawPitch());
+    SmartDashboard.putNumber("GetCorners", RobotContainer.photoVision.getCorners());
+    // RobotContainer.photoVision.getCorners();
   }
 
   public void updateAllSubsystems() {
-
+    updatePhotonVision();
   }
 
   @Override

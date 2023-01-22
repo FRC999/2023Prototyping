@@ -26,8 +26,10 @@ public class RobotContainer {
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
   public final static NetworkTablesSubsystem networkTables = new NetworkTablesSubsystem();
-  public final static SmartDashboardSubsystem smartDashboard = new SmartDashboardSubsystem();
+  
   public final static PhotonVisionSubsystem photoVision = new PhotonVisionSubsystem();
+
+  public final static SmartDashboardSubsystem smartDashboard = new SmartDashboardSubsystem();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
