@@ -13,7 +13,6 @@ public class DriveManuallyCommand extends CommandBase {
   public DriveManuallyCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.driveSubsystem);
-    addRequirements(RobotContainer.smartDashboard);
   }
 
   // Called when the command is initially scheduled.
@@ -31,10 +30,8 @@ public class DriveManuallyCommand extends CommandBase {
         move = RobotContainer.drivestick.getY();
         turn = RobotContainer.drivestick.getX();
 
-    //System.out.println("*** MDr");
-
     RobotContainer.driveSubsystem.manualDrive(turn, move);
-    RobotContainer.smartDashboard.updateAllDisplays();
+
   }
 
   // Called once the command ends or is interrupted.

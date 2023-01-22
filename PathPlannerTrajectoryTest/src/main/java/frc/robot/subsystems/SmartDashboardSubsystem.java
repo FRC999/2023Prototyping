@@ -15,8 +15,6 @@ public class SmartDashboardSubsystem extends SubsystemBase {
   void updateEncoders() {
     SmartDashboard.putNumber("Left Encoder Value", RobotContainer.driveSubsystem.getLeftEncoder());
     SmartDashboard.putNumber("Right Encoder Value", RobotContainer.driveSubsystem.getRightEncoder());
-    SmartDashboard.putNumber("Left Motor Error", RobotContainer.driveSubsystem.getLeftError());
-    SmartDashboard.putNumber("Right Motor Error", RobotContainer.driveSubsystem.getRightError());
   }
 /* 
   void updatePigeon() {

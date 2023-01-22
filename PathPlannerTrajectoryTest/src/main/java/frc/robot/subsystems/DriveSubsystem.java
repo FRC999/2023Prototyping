@@ -93,14 +93,6 @@ public class DriveSubsystem extends SubsystemBase {
     return (int) rightmotor.getSelectedSensorPosition();
   }
 
-  public double getLeftError() {
-    return leftmotor.getClosedLoopError();// Returns the PID error for Pan motion control;
-  }
-
-  public double getRightError() {
-    return rightmotor.getClosedLoopError();
-  }
-
   public void zeroEncoders(){
     leftmotor.setSelectedSensorPosition(0);
     rightmotor.setSelectedSensorPosition(0);
@@ -179,7 +171,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @param pose The pose to which to set the odometry.
    */
   public void resetOdometry(Pose2d pose) {
-    
+
     zeroEncoders();   // Reset Encoders
     RobotContainer.imuSubsystem.zeroHeading();  // Reset Yaw
 

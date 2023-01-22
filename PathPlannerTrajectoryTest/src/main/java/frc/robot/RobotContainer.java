@@ -62,8 +62,7 @@ public static Object pigeonIMU;
    */
   private void configureBindings() {
 
-    System.out.println("TEST2");
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
+        // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     new Trigger(m_exampleSubsystem::exampleCondition)
         .onTrue(new ExampleCommand(m_exampleSubsystem));
 
@@ -74,7 +73,6 @@ public static Object pigeonIMU;
           .whileTrue(new RunTrajectorySequentialCommandGroup("10ftforward"))
           .whileFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem, RobotContainer.imuSubsystem));
   }
-   
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
