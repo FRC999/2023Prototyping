@@ -4,30 +4,37 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.sensors.Pigeon2_Faults;
+import com.ctre.phoenix.sensors.PigeonIMU_Faults;
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
+import com.ctre.phoenix.sensors.WPI_PigeonIMU;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class IMUSubsystem extends SubsystemBase {
   /** Creates a new IMUSubsystem. */
+  private TalonSRX talonMotor;
+  private int talonMotorID = 4;
+
   private final int pigeon2DeviceID = 11;  // Change to the right ID per Phoenix Tuner
 
-  private static WPI_Pigeon2 pigeon2;
-  private static Pigeon2_Faults pigeonFaults = new Pigeon2_Faults();
+  private static WPI_PigeonIMU pigeon;
+  private static PigeonIMU_Faults pigeonFaults = new PigeonIMU_Faults();
 
   public IMUSubsystem() {
-    pigeon2 = new WPI_Pigeon2(pigeon2DeviceID);
+    talonMotor = new TalonSRX(talonMotorID);
+    pigeon = new WPI_PigeonIMU(talonMotor);
   }
 
   public Rotation2d getRotation2d() {
-    return pigeon2.getRotation2d() ;
+    return pigeon.getRotation2d() ;
   }
 
   /** Zeroes the heading of the robot. */
   public void zeroHeading() {
-    pigeon2.setYaw(0);
+    pigeon.setYaw(0);
   }
 
     /**
@@ -36,7 +43,7 @@ public class IMUSubsystem extends SubsystemBase {
    * @return the robot's heading in degrees, from -180 to 180
    */
   public double getHeading() {
-    return pigeon2.getRotation2d().getDegrees();
+    return pigeon.getRotation2d().getDegrees();
   }
 
     /**
@@ -45,7 +52,7 @@ public class IMUSubsystem extends SubsystemBase {
    * @return The turn rate of the robot, in degrees per second
    */
   public double getTurnRate() {
-    return -pigeon2.getRate();
+    return -pigeon.getRate();
   }
 
 

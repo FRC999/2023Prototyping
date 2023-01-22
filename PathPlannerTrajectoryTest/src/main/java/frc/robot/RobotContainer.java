@@ -70,9 +70,9 @@ public static Object pigeonIMU;
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
-    new JoystickButton(drivestick, 8)
+    new JoystickButton(drivestick, 11)
           .whileTrue(new RunTrajectorySequentialCommandGroup("10ftforward"))
-          .whileFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
+          .whileFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem, RobotContainer.imuSubsystem));
   }
    
 
