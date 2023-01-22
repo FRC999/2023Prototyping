@@ -47,6 +47,7 @@ public class PhotonVisionSubsystem extends SubsystemBase {
 
   public double getDistance() {
     return 0;
+    
   }
 
   public void getCorners() {
@@ -105,7 +106,11 @@ public class PhotonVisionSubsystem extends SubsystemBase {
       System.out.println(cornersArray[i][0]+ "," + cornersArray[i][1]);
     }
 
-    
+    double yTop = (cornersArray[0][1] + cornersArray[1][1])/2;
+    double yBottom = (cornersArray[2][1] + cornersArray[3][1])/2;
+
+    System.out.println(yTop - yBottom);
+
     double yLength = ((cornersArray[2][1]+cornersArray[3][1])/2) - ((cornersArray[0][1]+cornersArray[1][1])/2);
     System.out.println("X length");
     System.out.println(xLength);
