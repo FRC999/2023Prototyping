@@ -39,9 +39,14 @@ public class RunTrajectorySequentialCommandGroup extends SequentialCommandGroup 
   // values for your robot.
 
   // The next three numbers are from frankenbot 2021 numbers
-  public static final double ksVolts = 0.834;
-  public static final double kvVoltSecondsPerMeter = 0.816;
-  public static final double kaVoltSecondsSquaredPerMeter = 0.0574;
+  // public static final double ksVolts = 0.834;
+  // public static final double kvVoltSecondsPerMeter = 0.816;
+  // public static final double kaVoltSecondsSquaredPerMeter = 0.0574;
+
+  // 2023 Frankenbot characterization numbers
+  public static final double ksVolts = 0.15219;
+  public static final double kvVoltSecondsPerMeter = 2.1748;
+  public static final double kaVoltSecondsSquaredPerMeter = 0.49391;
 
   // Example value only - as above, this must be tuned for your drive!
   public static final double kPDriveVel = 8.5;
@@ -61,9 +66,15 @@ public class RunTrajectorySequentialCommandGroup extends SequentialCommandGroup 
   // Those are from the Frankenbot, so may need to rerun characteristics
   double fullMotorOutput = 1024;
   double encoderUnitsPerShaftRotation = 2048;
-  double trajectoryRioPidP_Value = 0.75 * fullMotorOutput / encoderUnitsPerShaftRotation;
-  double trajectoryRioPidI_Value = 0.005 * fullMotorOutput / encoderUnitsPerShaftRotation;
-  double trajectoryRioPidD_Value = .1;
+  //double trajectoryRioPidP_Value = 0.75 * fullMotorOutput / encoderUnitsPerShaftRotation;
+  //double trajectoryRioPidI_Value = 0.005 * fullMotorOutput / encoderUnitsPerShaftRotation;
+  //double trajectoryRioPidD_Value = .1;
+
+  // From characterization 2023 - modified
+  double trajectoryRioPidP_Value = 0.054151 ;
+  double trajectoryRioPidD_Value = 0;
+  double trajectoryRioPidI_Value = 0;
+
 
   DifferentialDriveVoltageConstraint autoVoltageConstraint;
   TrajectoryConfig config;
