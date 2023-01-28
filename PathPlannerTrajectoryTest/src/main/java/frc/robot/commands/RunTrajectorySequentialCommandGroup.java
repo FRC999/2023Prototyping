@@ -101,7 +101,7 @@ public class RunTrajectorySequentialCommandGroup extends SequentialCommandGroup 
         10);
 
     addCommands(
-      new InstantCommand( () -> RobotContainer.driveSubsystem.resetOdometry(new Pose2d(1.0, 1.0, new Rotation2d(0.0))) ),  // Set the initial pose of the robot to the one in a trajectory
+      new InstantCommand( () -> RobotContainer.driveSubsystem.resetOdometry(trajectoryPath.getInitialPose()) ),  // Set the initial pose of the robot to the one in a trajectory
       new AutonomousTrajectoryRioCommand("simpleTest1") // Run a trajectory, place a robot at the beginning of it
       
       /*new PPRamseteCommand(
