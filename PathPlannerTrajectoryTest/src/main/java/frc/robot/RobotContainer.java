@@ -74,7 +74,10 @@ public static Object pigeonIMU;
           .whileTrue(new RunTrajectorySequentialCommandGroup("simpleturn90"))
           .whileFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem, RobotContainer.imuSubsystem));
 
-  
+    new JoystickButton(drivestick, 8)
+          .whileTrue(new RunTrajectorySequentialCommandGroup("leotest"))
+          .whileFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem, RobotContainer.imuSubsystem));
+
     new JoystickButton(drivestick, 7)
         .whileTrue(new SequentialCommandGroup(
             new InstantCommand(driveSubsystem::zeroEncoders, driveSubsystem),
