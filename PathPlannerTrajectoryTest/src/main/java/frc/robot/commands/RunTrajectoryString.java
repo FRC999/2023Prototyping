@@ -19,20 +19,22 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.DriveConstants;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class RunTrajectorySequentialCommandGroup extends SequentialCommandGroup {
+public class RunTrajectoryString extends SequentialCommandGroup {
   /** Creates a new RunTrajectorySequentialCommandGroup. */
 
    PathPlannerTrajectory trajectoryPath;
 
 
-  public RunTrajectorySequentialCommandGroup(String trajectory, double maxVelocity, double maxAcceleration) {
+  public RunTrajectoryString(String trajectory, double maxVelocity, double maxAcceleration) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
@@ -40,14 +42,24 @@ public class RunTrajectorySequentialCommandGroup extends SequentialCommandGroup 
     trajectoryPath = PathPlanner.loadPath(trajectory, new PathConstraints(maxVelocity, maxAcceleration));
 
     addCommands(
+      new PrintCommand("Starting Trajectory String test"),
+      new InstantCommand(RobotContainer.driveSubsystem::zeroEncoders, RobotContainer.driveSubsystem),
+      new InstantCommand(RobotContainer.imuSubsystem::zeroHeading, RobotContainer.imuSubsystem),
       new InstantCommand( () -> RobotContainer.driveSubsystem.resetOdometry(trajectoryPath.getInitialPose()) ),  // Set the initial pose of the robot to the one in a trajectory
-      new AutonomousTrajectoryRioCommand(trajectoryPath) // Run a trajectory
+      new AutonomousTrajectoryRioCommand(trajectoryPath),
+      new PrintCommand("End First Trajectory"),
+      new WaitCommand(5),
+      new InstantCommand(RobotContainer.driveSubsystem::zeroEncoders, RobotContainer.driveSubsystem),
+      new InstantCommand(RobotContainer.imuSubsystem::zeroHeading, RobotContainer.imuSubsystem),
+      new InstantCommand( () -> RobotContainer.driveSubsystem.resetOdometry(new Pose2d(2.5, 1.0, new Rotation2d(0))) ),
+      new AutonomousTrajectoryRioCommand(trajectoryPath),
+      new PrintCommand("End Trajectory String test") // Run a trajectory
     );
 
 
   }
   
-  public RunTrajectorySequentialCommandGroup(String trajectory) {
+  public RunTrajectoryString(String trajectory) {
 
     this(trajectory, DriveConstants.maxVelocityDefault, DriveConstants.maxAccelerationDefault);
     System.out.println("*** Run trajectory "+ trajectory);
