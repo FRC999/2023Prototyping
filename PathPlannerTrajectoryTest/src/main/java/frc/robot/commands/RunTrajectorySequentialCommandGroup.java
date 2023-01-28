@@ -21,6 +21,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RobotContainer;
+import frc.robot.Constants.DriveConstants;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -84,12 +85,12 @@ public class RunTrajectorySequentialCommandGroup extends SequentialCommandGroup 
   PathPlannerTrajectory trajectoryPath;
 
 
-  public RunTrajectorySequentialCommandGroup(String trajectory) {
+  public RunTrajectorySequentialCommandGroup(String trajectory, double maxVelocity, double maxAcceleration) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
     // Read the trajectory from a file
-    //trajectoryPath = PathPlanner.loadPath(trajectory, new PathConstraints(maxVelocity, maxAcceleration));
+    trajectoryPath = PathPlanner.loadPath(trajectory, new PathConstraints(maxVelocity, maxAcceleration));
 
     // Setup constants for the trajectory driving
     autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
@@ -102,26 +103,14 @@ public class RunTrajectorySequentialCommandGroup extends SequentialCommandGroup 
 
     addCommands(
       new InstantCommand( () -> RobotContainer.driveSubsystem.resetOdometry(trajectoryPath.getInitialPose()) ),  // Set the initial pose of the robot to the one in a trajectory
-      new AutonomousTrajectoryRioCommand("simpleTest1") // Run a trajectory, place a robot at the beginning of it
-      
-      /*new PPRamseteCommand(
-            trajectoryPath,
-            RobotContainer.driveSubsystem::getPose,
-            new RamseteController(),
-            new SimpleMotorFeedforward(
-                ksVolts,
-                kvVoltSecondsPerMeter,
-                kaVoltSecondsSquaredPerMeter),
-            kDriveKinematics,
-            RobotContainer.driveSubsystem::getWheelSpeeds,
-            new PIDController(trajectoryRioPidP_Value, trajectoryRioPidI_Value, trajectoryRioPidD_Value),
-            new PIDController(trajectoryRioPidP_Value, trajectoryRioPidI_Value, trajectoryRioPidD_Value),
-            // RamseteCommand passes volts to the callback
-            RobotContainer.driveSubsystem::tankDriveVolts,
-            true,
-            RobotContainer.driveSubsystem
-        )
-        */
+      new AutonomousTrajectoryRioCommand(trajectoryPath) // Run a trajectory
     );
+
+
   }
+  
+  public RunTrajectorySequentialCommandGroup(String trajectory) {
+    this(trajectory, DriveConstants.maxVelocityDefault, DriveConstants.maxAccelerationDefault);
+  }
+
 }
