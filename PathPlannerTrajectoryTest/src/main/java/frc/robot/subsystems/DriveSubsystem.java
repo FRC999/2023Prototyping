@@ -171,6 +171,9 @@ public class DriveSubsystem extends SubsystemBase {
    * @return The pose.
    */
   public Pose2d getPose() {
+
+    System.out.println("Get Pose");
+
     return m_odometry.getPoseMeters();
   }
 
@@ -180,6 +183,9 @@ public class DriveSubsystem extends SubsystemBase {
    * @return The current wheel speeds.
    */
   public DifferentialDriveWheelSpeeds getWheelSpeeds() { // needs to be meters per second
+
+    System.out.println("Get wheel speeds");
+    
     return new DifferentialDriveWheelSpeeds(
         TranslateVelocityIntoMetersPerSecond(leftmotor.getSelectedSensorVelocity()),
         TranslateVelocityIntoMetersPerSecond(-rightmotor.getSelectedSensorVelocity())
@@ -250,7 +256,7 @@ public class DriveSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
 
-    updateOdometry();
+    //updateOdometry();
     m_field.setRobotPose(m_odometry.getPoseMeters());
 
   }
