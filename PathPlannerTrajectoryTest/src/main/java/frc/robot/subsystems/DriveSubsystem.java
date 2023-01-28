@@ -16,6 +16,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.pathplanner.lib.PathPlannerTrajectory;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
@@ -123,6 +124,13 @@ public class DriveSubsystem extends SubsystemBase {
   public void manualDrive(double turn, double move) {
     drive.arcadeDrive(turn,move);
   }
+  
+  
+  public void setBotPose(double xCoord, double yCoord, double rotation){
+    this.resetOdometry(new Pose2d(xCoord, yCoord, new Rotation2d(rotation)));
+  }
+
+
 
   
   /*
@@ -213,6 +221,7 @@ public class DriveSubsystem extends SubsystemBase {
     drive.setMaxOutput(maxOutput);
   }
 
+
   /**
    * Controls the left and right sides of the drive directly with voltages.
    *
@@ -237,8 +246,9 @@ public class DriveSubsystem extends SubsystemBase {
       RobotContainer.imuSubsystem.getRotation2d(),
       TranslateDistanceIntoMeters(leftmotor.getSelectedSensorPosition()),
       TranslateDistanceIntoMeters(-rightmotor.getSelectedSensorPosition())
-    );
+    );  
 
+    
     m_field.setRobotPose(m_odometry.getPoseMeters());
 
   }

@@ -30,6 +30,8 @@ public class SmartDashboardSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Pidgeon Heading value", RobotContainer.imuSubsystem.getHeading());
     
   }
+
+ 
   
   public void updateAllDisplays() {
     updateEncoders();

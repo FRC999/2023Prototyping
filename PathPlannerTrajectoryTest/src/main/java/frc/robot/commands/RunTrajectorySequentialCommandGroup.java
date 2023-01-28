@@ -12,6 +12,8 @@ import com.pathplanner.lib.commands.PPRamseteCommand;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
@@ -99,7 +101,7 @@ public class RunTrajectorySequentialCommandGroup extends SequentialCommandGroup 
         10);
 
     addCommands(
-      new InstantCommand( () -> RobotContainer.driveSubsystem.resetOdometry(trajectoryPath.getInitialPose()) ),  // Set the initial pose of the robot to the one in a trajectory
+      new InstantCommand( () -> RobotContainer.driveSubsystem.resetOdometry(new Pose2d(1.0, 1.0, new Rotation2d(-45.0))) ),  // Set the initial pose of the robot to the one in a trajectory
       new PPRamseteCommand(
             trajectoryPath,
             RobotContainer.driveSubsystem::getPose,

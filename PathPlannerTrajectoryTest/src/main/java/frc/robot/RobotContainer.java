@@ -71,7 +71,7 @@ public static Object pigeonIMU;
     // cancelling on release.
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
     new JoystickButton(drivestick, 11)
-          .whileTrue(new RunTrajectorySequentialCommandGroup("simpleturn90"))
+          .whileTrue(new RunTrajectorySequentialCommandGroup("simpleTest1"))
           .whileFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem, RobotContainer.imuSubsystem));
 
     new JoystickButton(drivestick, 8)
@@ -82,6 +82,11 @@ public static Object pigeonIMU;
         .whileTrue(new SequentialCommandGroup(
             new InstantCommand(driveSubsystem::zeroEncoders, driveSubsystem),
             new InstantCommand(imuSubsystem::zeroHeading, imuSubsystem)));
+
+    new JoystickButton(drivestick, 12)
+        .whileTrue(new InstantCommand ( ()-> driveSubsystem.setBotPose(10, 15, 180)));
+    
+        
   }
 
   /**
