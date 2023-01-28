@@ -29,7 +29,8 @@ public final class Constants {
   public static final class RobotDriveChassisConstants { // configure the physical properties unique to the robot
     // here, such as dimensions, wheel diameter etc
     public static final double wheelDiameter = 5; // inches
-    public static final double distanceBetweenWheels = 21.5; // inches
+    //public static final double distanceBetweenWheels = 21.5; // inches
+    public static final double distanceBetweenWheels = 28.0; // inches - Frankenbot
     public static final double chassisLength = 32.0; // inches, not including bumpers
     public static final double chassisWidth = 22.5; // inches, not including bumpers
     public static final int encoderUnitsPerMotorRotation = 2048;

@@ -110,7 +110,9 @@ public class RunTrajectorySequentialCommandGroup extends SequentialCommandGroup 
   }
   
   public RunTrajectorySequentialCommandGroup(String trajectory) {
+
     this(trajectory, DriveConstants.maxVelocityDefault, DriveConstants.maxAccelerationDefault);
+    System.out.println("*** Run trajectory "+ trajectory);
   }
 
 }
