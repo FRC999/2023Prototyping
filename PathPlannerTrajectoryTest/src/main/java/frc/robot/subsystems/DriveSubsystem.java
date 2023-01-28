@@ -237,18 +237,19 @@ public class DriveSubsystem extends SubsystemBase {
     drive.feed();
   }
 
+    // Should be used in periodic when the trajectory navigation is running
+    public void updateOdometry() {
+      m_odometry.update(
+        RobotContainer.imuSubsystem.getRotation2d(),
+        TranslateDistanceIntoMeters(getLeftEncoder()),
+        TranslateDistanceIntoMeters(-getRightEncoder())
+      );
+    }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
 
-    // We probably need to move this odometry update into the command rather than keeping it in a subsystem
-    m_odometry.update(
-      RobotContainer.imuSubsystem.getRotation2d(),
-      TranslateDistanceIntoMeters(leftmotor.getSelectedSensorPosition()),
-      TranslateDistanceIntoMeters(-rightmotor.getSelectedSensorPosition())
-    );  
-
-    
     m_field.setRobotPose(m_odometry.getPoseMeters());
 
   }
