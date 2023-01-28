@@ -25,55 +25,6 @@ import frc.robot.Constants.DriveConstants;
 public class AutonomousTrajectoryRioCommand extends PPRamseteCommand {
   /** Creates a new AutonomousTrajectoryRioCommand. */
 
-    // ==== Command Limits - meters per second
-    double maxVelocity = 2;
-    double maxAcceleration = 1;
-  
-    // These are example values only - DO NOT USE THESE FOR YOUR OWN ROBOT!
-    // These characterization values MUST be determined either experimentally or
-    // theoretically
-    // for *your* robot's drive.
-    // The Robot Characterization Toolsuite provides a convenient tool for obtaining
-    // these
-    // values for your robot.
-  
-    // The next three numbers are from frankenbot 2021 numbers
-    // public static final double ksVolts = 0.834;
-    // public static final double kvVoltSecondsPerMeter = 0.816;
-    // public static final double kaVoltSecondsSquaredPerMeter = 0.0574;
-  
-    // 2023 Frankenbot characterization numbers
-    public static final double ksVolts = 0.15219;
-    public static final double kvVoltSecondsPerMeter = 2.1748;
-    public static final double kaVoltSecondsSquaredPerMeter = 0.49391;
-  
-    // Example value only - as above, this must be tuned for your drive!
-    public static final double kPDriveVel = 8.5;
-  
-    // Max Velocity Trajectory/Acceleration
-    public static final double kMaxSpeedMetersPerSecond = 2;
-    public static final double kMaxAccelerationMetersPerSecondSquared = 1;
-  
-    public static final double kTrackwidthMeters = Units.inchesToMeters(30); // Needs to match Frankenbot - distance between the wheels
-    public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackwidthMeters);
-  
-    // Reasonable baseline values for a RAMSETE follower in units of meters and
-    // seconds
-    public static final double kRamseteB = 2;
-    public static final double kRamseteZeta = 0.7;
-  
-    // Those are from the Frankenbot, so may need to rerun characteristics
-    public static final double fullMotorOutput = 1024;
-    public static final double encoderUnitsPerShaftRotation = 2048;
-    //double trajectoryRioPidP_Value = 0.75 * fullMotorOutput / encoderUnitsPerShaftRotation;
-    //double trajectoryRioPidI_Value = 0.005 * fullMotorOutput / encoderUnitsPerShaftRotation;
-    //double trajectoryRioPidD_Value = .1;
-  
-    // From characterization 2023 - modified
-    public static final double trajectoryRioPidP_Value = 0.054151 ;
-    public static final double trajectoryRioPidD_Value = 0;
-    public static final double trajectoryRioPidI_Value = 0;
-
   TrajectoryConfig config;
 
   PathPlannerTrajectory trajectoryPath;
@@ -86,17 +37,17 @@ public class AutonomousTrajectoryRioCommand extends PPRamseteCommand {
       RobotContainer.driveSubsystem::getPose,
       new RamseteController(),
       new SimpleMotorFeedforward(
-          ksVolts,
-          kvVoltSecondsPerMeter,
-          kaVoltSecondsSquaredPerMeter),
-      kDriveKinematics,
+        DriveConstants.ksVolts,
+        DriveConstants.kvVoltSecondsPerMeter,
+        DriveConstants.kaVoltSecondsSquaredPerMeter),
+      DriveConstants.kDriveKinematics,
       RobotContainer.driveSubsystem::getWheelSpeeds,
-      new PIDController(trajectoryRioPidP_Value,
-        trajectoryRioPidI_Value,
-        trajectoryRioPidD_Value),
-      new PIDController(trajectoryRioPidP_Value,
-        trajectoryRioPidI_Value,
-        trajectoryRioPidD_Value),
+      new PIDController(DriveConstants.trajectoryRioPidP_Value,
+        DriveConstants.trajectoryRioPidI_Value,
+        DriveConstants.trajectoryRioPidD_Value),
+      new PIDController(DriveConstants.trajectoryRioPidP_Value,
+        DriveConstants.trajectoryRioPidI_Value,
+        DriveConstants.trajectoryRioPidD_Value),
       // RamseteCommand passes volts to the callback
       RobotContainer.driveSubsystem::tankDriveVolts,
       false,
@@ -141,7 +92,7 @@ public class AutonomousTrajectoryRioCommand extends PPRamseteCommand {
     //System.out.println("O");
 
     RobotContainer.driveSubsystem.updateTrajectoryOdometry();
-    
+
     super.execute();
   }
 
