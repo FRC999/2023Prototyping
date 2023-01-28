@@ -172,7 +172,7 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public Pose2d getPose() {
 
-    System.out.println("Get Pose");
+    //System.out.println("Get Pose");
 
     return m_odometry.getPoseMeters();
   }
@@ -184,7 +184,7 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public DifferentialDriveWheelSpeeds getWheelSpeeds() { // needs to be meters per second
 
-    System.out.println("Get wheel speeds");
+    //System.out.println("Get wheel speeds");
     
     return new DifferentialDriveWheelSpeeds(
         TranslateVelocityIntoMetersPerSecond(leftmotor.getSelectedSensorVelocity()),
@@ -252,11 +252,19 @@ public class DriveSubsystem extends SubsystemBase {
       );
     }
 
+    public void updateTrajectoryOdometry() {
+      m_odometry.update(
+        RobotContainer.imuSubsystem.getRotation2d(),
+        TranslateDistanceIntoMeters(leftmotor.getSelectedSensorPosition()),
+        TranslateDistanceIntoMeters(-rightmotor.getSelectedSensorPosition())
+      ); 
+    }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
 
-    //updateOdometry();
+    // Update Glass; remove for competition
     m_field.setRobotPose(m_odometry.getPoseMeters());
 
   }

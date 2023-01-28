@@ -140,7 +140,8 @@ public class AutonomousTrajectoryRioCommand extends PPRamseteCommand {
 
     //System.out.println("O");
 
-
+    RobotContainer.driveSubsystem.updateTrajectoryOdometry();
+    
     super.execute();
   }
 
