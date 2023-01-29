@@ -73,5 +73,12 @@
   "maxVelocity": 1.5,
   "maxAcceleration": 0.5,
   "isReversed": null,
-  "markers": []
+  "markers": [
+    {
+      "position": 1.0,
+      "names": [
+        "mymessage"
+      ]
+    }
+  ]
 }

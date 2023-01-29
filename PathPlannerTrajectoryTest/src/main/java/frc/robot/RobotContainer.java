@@ -8,6 +8,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.DriveManuallyCommand;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.PathPartsWithCommands;
 import frc.robot.commands.RunTrajectorySequentialCommandGroup;
 import frc.robot.commands.RunTrajectoryString;
 import frc.robot.subsystems.DriveSubsystem;
@@ -72,7 +73,7 @@ public static Object pigeonIMU;
     // cancelling on release.
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
     new JoystickButton(drivestick, 11)
-          .whileTrue(new RunTrajectoryString("simpleTest1"))
+          .whileTrue(new PathPartsWithCommands("PathWithWaypoint"))
           .whileFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem, RobotContainer.imuSubsystem));
 
     new JoystickButton(drivestick, 8)
