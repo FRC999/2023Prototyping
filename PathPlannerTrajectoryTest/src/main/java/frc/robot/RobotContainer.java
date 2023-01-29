@@ -8,6 +8,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.DriveManuallyCommand;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.OnTheFlyPathFollowing;
 import frc.robot.commands.PathPartsWithCommands;
 import frc.robot.commands.RunTrajectorySequentialCommandGroup;
 import frc.robot.commands.RunTrajectoryString;
@@ -73,7 +74,7 @@ public static Object pigeonIMU;
     // cancelling on release.
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
     new JoystickButton(drivestick, 11)
-          .whileTrue(new PathPartsWithCommands("PathWithWaypoint"))
+          .whileTrue(new OnTheFlyPathFollowing(0.0, 0.0, 0.0, 1.0, 0.0, 45.0, 1, 2))
           .whileFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem, RobotContainer.imuSubsystem));
 
     new JoystickButton(drivestick, 8)
@@ -87,6 +88,7 @@ public static Object pigeonIMU;
 
     new JoystickButton(drivestick, 12)
         .whileTrue(new InstantCommand ( ()-> driveSubsystem.setBotPose(10, 15, 180)));
+    
     
         
   }
