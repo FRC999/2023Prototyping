@@ -8,26 +8,33 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveSubsystem extends SubsystemBase {
   /** Creates a new DriveSubsystem. */
-  private final WPI_TalonFX motor = new WPI_TalonFX(1);
-  
+
+  private final WPI_TalonFX leftMotor = new WPI_TalonFX(9);
+  private final WPI_TalonFX rightMotor = new WPI_TalonFX(10);
+  DifferentialDrive motorDrive = new DifferentialDrive(leftMotor, rightMotor);
+
   public DriveSubsystem() {
-    motor.configFactoryDefault();
-    motor.setInverted(true);
-    motor.setNeutralMode(NeutralMode.Brake);
+    leftMotor.configFactoryDefault();
+    rightMotor.configFactoryDefault();
+    leftMotor.setInverted(true);
+    rightMotor.setInverted(false);
+    leftMotor.setNeutralMode(NeutralMode.Brake);
+    rightMotor.setNeutralMode(NeutralMode.Brake);
+    motorDrive.setSafetyEnabled(false);
   }
 
-  public void runMotor() {
-    motor.set (TalonFXControlMode.PercentOutput, 0.3);
-  }
-  public void stopMotor() {
-    motor.set (TalonFXControlMode.PercentOutput, 0);
-  }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
   }
+
+  public void manualDrive(double move, double turn) {
+    motorDrive.arcadeDrive(move, turn);
+  }
+
 }
