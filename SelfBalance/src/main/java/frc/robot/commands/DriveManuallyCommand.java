@@ -29,8 +29,6 @@ public class DriveManuallyCommand extends CommandBase {
         move = RobotContainer.drivestick.getY() * (-1);
         turn = RobotContainer.drivestick.getX();
 
-    //System.out.println("*** MDr");
-
     RobotContainer.driveSubsystem.manualDrive(move, turn);
   }
 
