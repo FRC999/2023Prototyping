@@ -5,22 +5,27 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Subsystem;
+import frc.robot.RobotContainer;
 
-public class JoystickButton extends CommandBase {
-  /** Creates a new JoystickButton. */
-  public JoystickButton() {
+public class DriveCommand extends CommandBase {
+  private static final Subsystem DriveSubsystem = null;
+
+  /** Creates a new DriveCommand. */
+  public DriveCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(RobotContainer.driveSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    System.out.println("hello"); 
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    RobotContainer.driveSubsystem.manualDrive(RobotContainer.joystick.getY(), RobotContainer.joystick.getX());
+  }
 
   // Called once the command ends or is interrupted.
   @Override

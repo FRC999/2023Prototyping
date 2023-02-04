@@ -5,26 +5,33 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
 
-public class JoystickButton extends CommandBase {
-  /** Creates a new JoystickButton. */
-  public JoystickButton() {
+public class JoystickCommand extends CommandBase {
+  /** Creates a new JoystickCommand. */
+  public JoystickCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(RobotContainer.driveSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("hello"); 
+    //RobotContainer.driveSubsystem.runMotorVariableSpeed( RobotContainer.joystick.getY() * (-1));
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    RobotContainer.driveSubsystem.runMotorVariableSpeed( RobotContainer.joystick.getY() * (-1));
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    RobotContainer.driveSubsystem.stopMotor();
+    System.out.println("Command was killed:" + interrupted);
+  }
 
   // Returns true when the command should end.
   @Override

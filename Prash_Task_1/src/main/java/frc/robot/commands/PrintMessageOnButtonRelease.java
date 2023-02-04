@@ -5,17 +5,19 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
 
-public class JoystickButton extends CommandBase {
-  /** Creates a new JoystickButton. */
-  public JoystickButton() {
+public class PrintMessageOnButtonRelease extends CommandBase {
+  /** Creates a new PrintMessageOnButtonRelease. */
+  public PrintMessageOnButtonRelease() {
     // Use addRequirements() here to declare subsystem dependencies.
+    // addRequirements(RobotContainer.driveSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("hello"); 
+    System.out.println("Joystick button released");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -29,6 +31,6 @@ public class JoystickButton extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }
