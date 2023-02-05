@@ -22,8 +22,6 @@ public class SmartDashboardSubsystem extends SubsystemBase {
   void updatePigeon() {
     SmartDashboard.putNumber("Pitch value", RobotContainer.pigeonIMUSubsystem.getPitch());
     SmartDashboard.putNumber("Roll value", RobotContainer.pigeonIMUSubsystem.getRoll());
-    //SmartDashboard.putNumber("Yaw value", RobotContainer.pigeonIMU.getYaw());
-    
     SmartDashboard.putNumber("yaw value", RobotContainer.pigeonIMUSubsystem.getYaw());
   }
   

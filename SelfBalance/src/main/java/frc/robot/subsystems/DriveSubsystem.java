@@ -78,6 +78,14 @@ public class DriveSubsystem extends SubsystemBase {
     return rightmotor.getClosedLoopError();
   }
 
+  public double getLeftTarget() {
+    return leftmotor.getClosedLoopTarget();// Returns the PID error for Pan motion control;
+  }
+
+  public double getRightTarget() {
+    return rightmotor.getClosedLoopTarget();
+  }
+
   public void zeroEncoders(){
     leftmotor.setSelectedSensorPosition(0);
     rightmotor.setSelectedSensorPosition(0);
@@ -250,6 +258,8 @@ public class DriveSubsystem extends SubsystemBase {
     System.out.println("Configured motors for Balance");
 
   }
+
+
 
   public void balanceRobotToPitch(double pitch) {
     ConfigureMotorsForBalancePitch();

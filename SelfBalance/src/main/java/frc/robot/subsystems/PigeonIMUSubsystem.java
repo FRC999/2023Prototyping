@@ -4,39 +4,36 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.BaseTalon;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
-
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class PigeonIMUSubsystem extends SubsystemBase {
   /** Creates a new PigeonIMUSubsystem. */
   private WPI_TalonSRX pigeonIMUController = new WPI_TalonSRX(4);   //watch for class type!
   private PigeonIMU pigeon = new PigeonIMU(pigeonIMUController);
-  private double[] xyz = new double[3];
   public PigeonIMUSubsystem() {
   }
 
   public double getPitch() {
-    double[] ypr = new double[3];
-    pigeon.getYawPitchRoll(ypr);
-    return ypr[1];
+    //double[] ypr = new double[3];
+    //pigeon.getYawPitchRoll(ypr);
+    //return ypr[1];
+    return pigeon.getPitch();
   }
 
   public double getRoll() {
-    double[] ypr = new double[3];
-    pigeon.getYawPitchRoll(ypr);
-    return ypr[2];
+    //double[] ypr = new double[3];
+    //pigeon.getYawPitchRoll(ypr);
+    //return ypr[2];
+    return pigeon.getRoll();
   }
 
   public double getYaw() {
-    double[] ypr = new double[3];
-    pigeon.getYawPitchRoll(ypr);
-    return ypr[0];
+    //double[] ypr = new double[3];
+    //pigeon.getYawPitchRoll(ypr);
+    //return ypr[0];
+    return pigeon.getYaw();
   }
 
   public double zeroYaw() {

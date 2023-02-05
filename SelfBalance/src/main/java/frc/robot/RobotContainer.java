@@ -4,14 +4,14 @@
 
 package frc.robot;
 
-import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.BalanceOnCharger;
+import frc.robot.commands.DriveForwardUntilPitch;
 import frc.robot.commands.DriveManuallyCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.PigeonIMUSubsystem;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -22,7 +22,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
-  public static Joystick drivestick = new Joystick(0);
+  public static Joystick driveStick = new Joystick(0);
 
   public static final DriveSubsystem driveSubsystem = new DriveSubsystem();
 
@@ -37,7 +37,16 @@ public class RobotContainer {
 
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
+
+    new JoystickButton(driveStick, 11)
+      .whileTrue(new DriveForwardUntilPitch(0.3, 12, true))
+      .whileFalse(new InstantCommand(driveSubsystem::stopRobot))
+      ;
     
+    new JoystickButton(driveStick, 12)
+      .whileTrue(new BalanceOnCharger(0))
+      .whileFalse(new InstantCommand(driveSubsystem::stopRobot))
+      ;
   }
 
 }

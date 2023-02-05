@@ -5,7 +5,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
 public class DriveManuallyCommand extends CommandBase {
@@ -26,8 +25,8 @@ public class DriveManuallyCommand extends CommandBase {
   public void execute() {
     double move = 0, turn = 0;
 
-        move = RobotContainer.drivestick.getY() * (-1);
-        turn = RobotContainer.drivestick.getX();
+        move = RobotContainer.driveStick.getY() * (-1);
+        turn = RobotContainer.driveStick.getX();
 
     RobotContainer.driveSubsystem.manualDrive(move, turn);
   }

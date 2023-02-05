@@ -49,8 +49,8 @@ public class DriveForwardUntilPitch extends CommandBase {
   @Override
   public boolean isFinished() {
     return (compareDirection)?
-      (targetPitch>RobotContainer.pigeonIMUSubsystem.getPitch()):
-      (targetPitch>RobotContainer.pigeonIMUSubsystem.getPitch())
+      (targetPitch>=RobotContainer.pigeonIMUSubsystem.getPitch()):
+      (targetPitch<=RobotContainer.pigeonIMUSubsystem.getPitch())
       ;
   }
 }
