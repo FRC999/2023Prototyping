@@ -9,6 +9,7 @@ import frc.robot.commands.DriveForwardUntilPitch;
 import frc.robot.commands.DriveManuallyCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.PigeonIMUSubsystem;
+import frc.robot.subsystems.SmartDashboardSubsystem;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -27,6 +28,8 @@ public class RobotContainer {
   public static final DriveSubsystem driveSubsystem = new DriveSubsystem();
 
   public static final PigeonIMUSubsystem pigeonIMUSubsystem = new PigeonIMUSubsystem();
+
+  public static final SmartDashboardSubsystem smartDashboardSubsystem = new SmartDashboardSubsystem();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
