@@ -31,7 +31,7 @@ public class DriveSubsystem extends SubsystemBase {
       leftDriveTalonFX[motor].configFactoryDefault(); // reset the motor controller to defaults
       if (motor == 0) { // setup master
         leftDriveTalonFX[motor].set(ControlMode.PercentOutput, 0); // set the motor to Percent Output with Default of 0
-        leftDriveTalonFX[motor].setInverted(DriveConstants.MotorInvert[0]);
+        leftDriveTalonFX[motor].setInverted(DriveConstants.MotorInvert[1]);
       } else { // setup followers
         leftDriveTalonFX[motor].follow(leftDriveTalonFX[0]);
         leftDriveTalonFX[motor].setInverted(InvertType.FollowMaster); // set green lights when going forward
@@ -48,7 +48,7 @@ public class DriveSubsystem extends SubsystemBase {
 
       if (motor == 0) { // setup master
         rightDriveTalonFX[motor].set(ControlMode.PercentOutput, 0); // set the motor to Percent Output with Default of 0
-        rightDriveTalonFX[motor].setInverted( DriveConstants.MotorInvert[1]);
+        rightDriveTalonFX[motor].setInverted( DriveConstants.MotorInvert[0]);
       } else { // setup followers
         rightDriveTalonFX[motor].follow(rightDriveTalonFX[0]);
         rightDriveTalonFX[motor].setInverted(InvertType.FollowMaster); // set green lights when going forward
