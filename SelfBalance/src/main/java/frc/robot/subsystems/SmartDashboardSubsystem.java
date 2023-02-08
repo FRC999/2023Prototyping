@@ -28,6 +28,7 @@ public class SmartDashboardSubsystem extends SubsystemBase {
   void updateAllDisplays() {
     //updateEncoders();
     updatePigeon();
+    updateEncoders();
   }
   @Override
   public void periodic() {

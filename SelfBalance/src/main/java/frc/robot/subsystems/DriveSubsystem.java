@@ -246,7 +246,9 @@ public class DriveSubsystem extends SubsystemBase {
     talonConfig.slot0.kP = 0.4;
     talonConfig.slot0.kD = 0.0;
     talonConfig.primaryPID.selectedFeedbackSensor = FeedbackDevice.RemoteSensor0;
-    talonConfig.primaryPID.selectedFeedbackCoefficient = -360.0/8192; // Since the coefficient is negative, we do not need to invert the motors
+    //talonConfig.primaryPID.selectedFeedbackCoefficient = -360.0/8192; // Since the coefficient is negative, we do not need to invert the motors
+    //talonConfig.primaryPID.selectedFeedbackCoefficient = -1;
+
 
     //rightmotor.configFactoryDefault();
     rightmotor.configAllSettings(talonConfig,30);
@@ -263,7 +265,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void balanceRobotToPitch(double pitch) {
     ConfigureMotorsForBalancePitch();
-    rightmotor.set(ControlMode.Position, pitch);
+    rightmotor.set(ControlMode.Position, 0);
   }
 
 

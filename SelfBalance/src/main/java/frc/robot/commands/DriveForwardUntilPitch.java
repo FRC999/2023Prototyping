@@ -14,6 +14,13 @@ public class DriveForwardUntilPitch extends CommandBase {
   double targetPitch;
   boolean compareDirection;
 
+  boolean continueBalance = true;
+  boolean rampReached = false;
+  double balancePitch = 0;
+  double poorMaxClimbingPower = 0.09; //was 0.09
+  double poorMaxClimbingPitch = 15; // Pitch from which we start to reduce the motor power
+  double angleTolerance = 14.0;
+
   /**
    * Drive forward with "power" until "pitch" is detected . It's assumed that you start with 
    * @param power - -1..+1; positive number - forward
@@ -31,26 +38,47 @@ public class DriveForwardUntilPitch extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    rampReached = false;
     RobotContainer.driveSubsystem.driveForward(power);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    if (rampReached && continueBalance) {
+    double multiplier;
+    multiplier = (RobotContainer.pigeonIMUSubsystem.getPitch() - balancePitch)/poorMaxClimbingPitch;
+    power = poorMaxClimbingPower * multiplier;
+    power = (power<-poorMaxClimbingPower)?-poorMaxClimbingPower:power;
+    power = (power>poorMaxClimbingPower)?poorMaxClimbingPower:power;
+
+      power = (Math.abs(RobotContainer.pigeonIMUSubsystem.getPitch()) < angleTolerance)?0:power;
+
+      RobotContainer.driveSubsystem.driveForward(power);
+
+      System.out.println("P:"+power+" A:"+RobotContainer.pigeonIMUSubsystem.getPitch());
+    }
+  }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     RobotContainer.driveSubsystem.stopRobot();
-    System.out.println("Reached target pitch "+targetPitch);
+    System.out.println("Reached target pitch "+targetPitch+" I:"+interrupted);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (compareDirection)?
-      (targetPitch>=RobotContainer.pigeonIMUSubsystem.getPitch()):
-      (targetPitch<=RobotContainer.pigeonIMUSubsystem.getPitch())
+
+    if (! rampReached) {
+     rampReached = (compareDirection)?
+      (targetPitch<=RobotContainer.pigeonIMUSubsystem.getPitch()):
+      (targetPitch>=RobotContainer.pigeonIMUSubsystem.getPitch())
       ;
+      return rampReached && ! continueBalance; // if we reached the target pitch and do not need to continue balance, end
+    } else {
+      return false;
+    }
   }
 }

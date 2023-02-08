@@ -10,6 +10,7 @@ import frc.robot.RobotContainer;
 public class BalanceOnCharger extends CommandBase {
   /** Creates a new BalanceOnCharger. */
   double targetPitch;
+
   public BalanceOnCharger(double targetPitch) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.driveSubsystem, RobotContainer.pigeonIMUSubsystem);
@@ -27,7 +28,7 @@ public class BalanceOnCharger extends CommandBase {
 
     // Run the balance
     // Since we apply the coefficient, we can supply the angle vs the raw units
-    RobotContainer.driveSubsystem.balanceRobotToPitch(targetPitch);
+    RobotContainer.driveSubsystem.balanceRobotToPitch(targetPitch*8192/360);
 
   }
 

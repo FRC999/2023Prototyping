@@ -42,8 +42,8 @@ public class RobotContainer {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
 
     new JoystickButton(driveStick, 11)
-      .whileTrue(new DriveForwardUntilPitch(0.3, 12, true))
-      .whileFalse(new InstantCommand(driveSubsystem::stopRobot))
+      .whileTrue(new DriveForwardUntilPitch(0.6, 15, true))
+      .whileFalse(new InstantCommand(driveSubsystem::stopRobot, driveSubsystem))
       ;
     
     new JoystickButton(driveStick, 12)
