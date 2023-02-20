@@ -17,9 +17,16 @@ public class NetworkTablesSubsystem extends SubsystemBase {
     ntInst = NetworkTableInstance.getDefault();
   }
 
-  public double[] getRobotPose() {
+  public double[] getLimelightOneRobotPose() {
 
-    double[] robotPose = ntInst.getTable("limelight").getEntry("botpose_wpiblue").getDoubleArray(new double[6]);
+    double[] robotPose = ntInst.getTable("limelight-right").getEntry("botpose_wpiblue").getDoubleArray(new double[6]);
+    System.out.println(robotPose);
+    return robotPose;
+  }
+  public double[] getLimelightTwoRobotPose() {
+
+    double[] robotPose = ntInst.getTable("limelight-left").getEntry("botpose_wpiblue").getDoubleArray(new double[6]);
+    System.out.println(robotPose);
     return robotPose;
   }
 

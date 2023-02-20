@@ -15,10 +15,16 @@ public class SmartDashboardSubsystem extends SubsystemBase {
   }
 
   public void updateRobotPose() {
-    double[] robotPose = RobotContainer.networkTablesSubsystem.getRobotPose();
-    SmartDashboard.putNumber("BotPoseX", Math.round(robotPose[0]*10.0)/10.0);
-    SmartDashboard.putNumber("BotPoseY", Math.round(robotPose[1]*10.0)/10.0);
-    SmartDashboard.putNumber("BotPoseZ", Math.round(robotPose[2]*10.0)/10.0);
+    double[] robotPoseOne = RobotContainer.networkTablesSubsystem.getLimelightOneRobotPose();
+    SmartDashboard.putNumber("RightX", robotPoseOne[0]);
+    SmartDashboard.putNumber("RightY", robotPoseOne[1]);
+    SmartDashboard.putNumber("RightZ", robotPoseOne[2]);
+
+    double[] robotPoseTwo = RobotContainer.networkTablesSubsystem.getLimelightTwoRobotPose();
+    SmartDashboard.putNumber("LeftX", robotPoseTwo[0]);
+    SmartDashboard.putNumber("LeftY", robotPoseTwo[1]);
+    SmartDashboard.putNumber("LeftZ", robotPoseTwo[2]);
+
     // RobotContainer.photoVision.getCorners();
   }
 
