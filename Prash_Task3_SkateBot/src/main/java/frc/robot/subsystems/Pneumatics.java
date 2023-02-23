@@ -14,7 +14,7 @@ public class Pneumatics extends SubsystemBase {
 
   private Compressor compressor = new Compressor(0, PneumaticsModuleType.CTREPCM);
   private static DoubleSolenoid solenoid = 
-        new DoubleSolenoid(PneumaticsModuleType., 0, 7);
+        new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 7);
 
   /** Creates a new Pneumatics. */
   public Pneumatics() {
