@@ -18,6 +18,7 @@ import frc.robot.subsystems.Subsystem2;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -70,11 +71,16 @@ public class RobotContainer {
     // cancelling on release.
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
 
-    //new JoystickButton(driveStick, 7)
-    //  .onTrue(new TestSequence(()->a));
+    new JoystickButton(driveStick, 9)
+      .onTrue(new TestSequence(()->a));
+      //.onTrue(new PrintCommand("TEST"));
 
-    //new JoystickButton(driveStick, 10)
-    //  .onTrue(new TestPrint1(()->a));
+
+    new JoystickButton(driveStick, 10)
+      .onTrue(new TestPrint1(()->a));
+
+    new JoystickButton(driveStick, 8)
+    .onTrue(new TestPrint1(()->Double.NaN));
 
     //new JoystickButton(driveStick, 11)
     //  .onTrue(new TestPrint1(5));
@@ -82,17 +88,17 @@ public class RobotContainer {
     //new JoystickButton(driveStick, 8)
     //  .onTrue(new TestPrint1(a));
 
-    new JoystickButton(driveStick, 7)
-      .onTrue(new TestSequenceInterruption());
+    //new JoystickButton(driveStick, 7)
+    //  .onTrue(new TestSequenceInterruption());
 
-    new JoystickButton(driveStick, 8)
-      .onTrue(new Command1Ending());
+    //new JoystickButton(driveStick, 8)
+    //  .onTrue(new Command1Ending());
 
-    new JoystickButton(driveStick, 9)
-      .onTrue(new Command2Ending());
+    //new JoystickButton(driveStick, 9)
+    //  .onTrue(new Command2Ending());
 
-    //new JoystickButton(driveStick, 12)
-    //  .onTrue(new InstantCommand(()->increaseA()));
+    new JoystickButton(driveStick, 12)
+      .onTrue(new InstantCommand(()->increaseA()));
   }
 
   public void increaseA() {

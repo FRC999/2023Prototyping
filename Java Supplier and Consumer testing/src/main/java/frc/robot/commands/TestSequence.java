@@ -7,6 +7,7 @@ package frc.robot.commands;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
@@ -21,8 +22,18 @@ public class TestSequence extends SequentialCommandGroup {
     ds = d;
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
+
+    addCommands (
     new ConditionalCommand(new PrintCommand("Less " + ds.getAsDouble()), 
         new PrintCommand("More " + ds.getAsDouble()),
-         () -> ds.getAsDouble()<3);
+         () -> (ds.getAsDouble()<3)),
+    new ConditionalCommand(new PrintCommand("Less " + ds.getAsDouble()), 
+        new InstantCommand(this::cancel),
+          () -> ds.getAsDouble()<3),
+    new ConditionalCommand(new PrintCommand("Less " + ds.getAsDouble()), 
+        new PrintCommand("More " + ds.getAsDouble()),
+           () -> ds.getAsDouble()<3)
+    );
   }
+
 }
