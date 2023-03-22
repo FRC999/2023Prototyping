@@ -204,7 +204,7 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public void resetOdometry(Pose2d pose) {
 
-    zeroEncoders();   // Reset Encoders
+    //zeroEncoders();   // Reset Encoders
     RobotContainer.imuSubsystem.zeroHeading();  // Reset Yaw
 
     m_odometry.resetPosition(  // distances need to be in meters
@@ -212,6 +212,10 @@ public class DriveSubsystem extends SubsystemBase {
         TranslateDistanceIntoMeters(leftmotor.getSelectedSensorPosition()),
         TranslateDistanceIntoMeters(-rightmotor.getSelectedSensorPosition()),
         pose);
+
+    System.out.println("*** Reset Position - X:"+ m_odometry.getPoseMeters().getX() +
+       " Y:"+ m_odometry.getPoseMeters().getY()
+    );
   }
 
   public double TranslateDistanceIntoMeters(double distanceRawUnits) {
