@@ -168,4 +168,9 @@ public final class Constants {
     public static int pigeonIMUId = 11;
 }
 
+public static final class Printer {
+  // CAN ID of Pigeon2
+  public static boolean PRINT_SD_DEBUG_DATA = true;
+}
+
 }
