@@ -92,22 +92,22 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
    /** Get the number of tics moved by the left encoder */
-   public int getLeftEncoder() {
-    return (int) leftmotor.getSelectedSensorPosition();
+   public double getLeftEncoder() {
+    return leftmotor.getSelectedSensorPosition();
   }
 
   /** Get the number of tics moved by the left encoder */
-  public int getRightEncoderVelocity() {
-    return (int) -rightmotor.getSelectedSensorVelocity();
+  public double getRightEncoderVelocity() {
+    return  -rightmotor.getSelectedSensorVelocity();
   }
 
-  public int getLeftEncoderVelocity() {
-    return (int) leftmotor.getSelectedSensorVelocity();
+  public double getLeftEncoderVelocity() {
+    return  leftmotor.getSelectedSensorVelocity();
   }
 
   /** Get the number of tics moved by the left encoder */
-  public int getRightEncoder() {
-    return (int) -rightmotor.getSelectedSensorPosition();
+  public double getRightEncoder() {
+    return -rightmotor.getSelectedSensorPosition();
   }
 
   public void zeroEncoders(){

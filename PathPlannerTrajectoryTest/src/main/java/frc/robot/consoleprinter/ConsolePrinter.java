@@ -39,7 +39,7 @@ public class ConsolePrinter {
 	private static LinkedHashSet<String> dashboardKeys;
 	private static LinkedHashSet<String> fileKeys;
 
-	private static final boolean PRINT_SD_DEBUG_DATA = false;
+	private static final boolean PRINT_SD_DEBUG_DATA = true;
 
 	private ConsolePrinter() {
 		data = new HashMap<String, Loggable>();

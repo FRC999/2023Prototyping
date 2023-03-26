@@ -9,8 +9,10 @@ import frc.robot.commands.Autos;
 import frc.robot.commands.DriveManuallyCommand;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.PathPartsWithCommands;
+import frc.robot.commands.RunTrajectorySequenceRobotAtStartPoint;
 import frc.robot.commands.RunTrajectorySequentialCommandGroup;
 import frc.robot.commands.RunTrajectoryString;
+import frc.robot.consoleprinter.ConsolePrinter;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.IMUSubsystem;
@@ -46,11 +48,19 @@ public static Object pigeonIMU;
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
     driveSubsystem.setDefaultCommand(new DriveManuallyCommand());
+
+    ConsolePrinter.init();
+    ConsolePrinter.setRate(20);
+
+    ConsolePrinter.putNumber("Left Encoder Velocity CP", driveSubsystem::getLeftEncoderVelocity, true, true);
+
+    //ConsolePrinter.startThread();
 
   }
 
@@ -77,8 +87,17 @@ public static Object pigeonIMU;
           .whileFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem, RobotContainer.imuSubsystem));
 
     new JoystickButton(drivestick, 8)
-          .whileTrue(new RunTrajectorySequentialCommandGroup("leotest"))
+          .whileTrue(new RunTrajectorySequenceRobotAtStartPoint("2m",2,1,false))
           .whileFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem, RobotContainer.imuSubsystem));
+
+    new JoystickButton(drivestick, 9)
+          .whileTrue(new RunTrajectorySequenceRobotAtStartPoint("2m",4,2,false))
+          .whileFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem, RobotContainer.imuSubsystem));
+
+    new JoystickButton(drivestick, 10)
+          .whileTrue(new RunTrajectorySequenceRobotAtStartPoint("2m",6,4,false))
+          .whileFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem, RobotContainer.imuSubsystem));
+
 
     new JoystickButton(drivestick, 7)
         .whileTrue(new SequentialCommandGroup(
